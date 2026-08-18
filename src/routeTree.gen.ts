@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EstimateRouteImport } from './routes/estimate'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -30,6 +31,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KnowledgeIndexRoute = KnowledgeIndexRouteImport.update({
+  id: '/knowledge/',
+  path: '/knowledge/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/estimate': typeof EstimateRoute
   '/pricing': typeof PricingRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/estimate': typeof EstimateRoute
   '/pricing': typeof PricingRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/knowledge': typeof KnowledgeIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -61,19 +69,33 @@ export interface FileRoutesById {
   '/estimate': typeof EstimateRoute
   '/pricing': typeof PricingRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/estimate' | '/pricing' | '/services/$slug' | '/services/'
+  fullPaths:
+    | '/'
+    | '/estimate'
+    | '/pricing'
+    | '/services/$slug'
+    | '/knowledge/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/estimate' | '/pricing' | '/services/$slug' | '/services'
+  to:
+    | '/'
+    | '/estimate'
+    | '/pricing'
+    | '/services/$slug'
+    | '/knowledge'
+    | '/services'
   id:
     | '__root__'
     | '/'
     | '/estimate'
     | '/pricing'
     | '/services/$slug'
+    | '/knowledge/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
@@ -82,6 +104,7 @@ export interface RootRouteChildren {
   EstimateRoute: typeof EstimateRoute
   PricingRoute: typeof PricingRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  KnowledgeIndexRoute: typeof KnowledgeIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/knowledge/': {
+      id: '/knowledge/'
+      path: '/knowledge'
+      fullPath: '/knowledge/'
+      preLoaderRoute: typeof KnowledgeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/services'
@@ -130,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstimateRoute: EstimateRoute,
   PricingRoute: PricingRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  KnowledgeIndexRoute: KnowledgeIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
